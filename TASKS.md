@@ -142,7 +142,105 @@ Phase 1は以下を満たしたら完了。
 
 ---
 
+## Phase 2: eBay API接続の土台作成
+
+### 目的
+
+eBay APIを安全に使えるようにする。
+
+最初から出品作成や在庫更新などの書き込み処理は行わず、まずは環境変数の読み込みと読み取り系API接続確認を実装する。
+
+---
+
+## Task 8: eBay環境変数の読み込み
+
+`.env.local` から以下を読み込む。
+
+- EBAY_CLIENT_ID
+- EBAY_CLIENT_SECRET
+- EBAY_DEV_ID
+- EBAY_RUNAME
+- EBAY_USER_TOKEN
+- EBAY_ENV
+- EBAY_API_BASE_URL
+
+### 方針
+
+- 本物のキーはGitHubにコミットしない
+- `.env.example` はサンプルとしてGitHubに置く
+- 必須値が不足している場合は、秘密情報を表示せずに安全なエラーを出す
+
+---
+
+## Task 9: eBay API設定チェック機能
+
+開発用に、eBay API設定が揃っているか確認できる処理を作る。
+
+### 例
+
+- APIキーが設定済みか
+- User Tokenが設定済みか
+- Production / Sandbox のどちらを使っているか
+- API Base URLが正しいか
+
+### 注意
+
+Client SecretやUser Tokenの中身は画面やログに表示しない。
+
+---
+
+## Task 10: eBay読み取りAPI接続確認
+
+最初は読み取り専用のAPIで接続確認する。
+
+候補。
+
+- 自分の出品一覧取得
+- 注文一覧取得
+- アカウント情報取得
+
+実装時点で利用APIが決まっていない場合は、`EBAY_SETUP.md` に仮定を追記する。
+
+---
+
+## Task 11: eBay出品ドラフト作成の設計
+
+Phase 1の商品入力フォームから、eBay出品ドラフト作成に必要な項目を整理する。
+
+### 整理する項目
+
+- title
+- description
+- categoryId
+- condition
+- price
+- currency
+- quantity
+- item location
+- shipping policy
+- return policy
+- payment policy
+- images
+
+### 注意
+
+実際の出品作成は、確認画面と明示的な実行ボタンを用意してから行う。
+
+---
+
+## Phase 2 Doneの条件
+
+- `.env.local` を使う設計になっている
+- 秘密情報がGitHubに入らない
+- eBay API設定チェックができる
+- 読み取り系APIの接続確認ができる
+- 出品ドラフト作成に必要な項目が整理されている
+
+---
+
 ## 注意
 
 実装中に判断が必要な場合は、無理に複雑化しない。
 まずは動くものを優先する。
+
+APIキー、Client Secret、User Token、Refresh Tokenは絶対にGitHubへコミットしない。
