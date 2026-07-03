@@ -38,7 +38,48 @@ EBAY_API_BASE_URL=https://api.ebay.com
 
 ---
 
-## 3. Sandboxを使う場合
+## 3. eBay下書き作成の標準設定
+
+最初の標準パターンは、iPod classic 第7世代 256GB USB-C 2000mAhを想定します。
+
+```env
+EBAY_MARKETPLACE_ID=EBAY_US
+EBAY_DEFAULT_CURRENCY=USD
+EBAY_DEFAULT_PRICE=299
+EBAY_DEFAULT_QUANTITY=1
+EBAY_DEFAULT_CONDITION=USED
+EBAY_DEFAULT_CATEGORY_LABEL=iPods & MP3 Players
+EBAY_DEFAULT_CATEGORY_ID=
+```
+
+### 標準販売条件
+
+- 価格: 299 USD
+- 数量: 1
+- 状態: Used
+- カテゴリ: iPods & MP3 Players 系
+- 画像: まずはHTTPS画像URL入力方式
+- 発送: Standard Shipping
+- 返品: 30-day free returns
+- 支払い: eBay側のPayment Policy
+- 発送元: Japan / merchantLocationKey
+
+### Business Policy ID
+
+eBay APIでOfferを作る場合、発送・返品・支払いポリシーは表示名ではなくIDが必要です。
+
+```env
+EBAY_PAYMENT_POLICY_ID=ここにPayment Policy ID
+EBAY_RETURN_POLICY_ID=ここに30-day free returnsのReturn Policy ID
+EBAY_FULFILLMENT_POLICY_ID=ここにStandard ShippingのFulfillment Policy ID
+EBAY_MERCHANT_LOCATION_KEY=ここにJapan発送元のmerchantLocationKey
+```
+
+実装では、これらが未設定の場合はOffer作成を止め、秘密情報を表示せずに不足項目だけを案内します。
+
+---
+
+## 4. Sandboxを使う場合
 
 Sandboxで検証する場合は、以下も設定します。
 
@@ -53,7 +94,7 @@ EBAY_SANDBOX_API_BASE_URL=https://api.sandbox.ebay.com
 
 ---
 
-## 4. GitHubに上げてはいけないもの
+## 5. GitHubに上げてはいけないもの
 
 以下は絶対にコミットしないこと。
 
@@ -68,7 +109,7 @@ EBAY_SANDBOX_API_BASE_URL=https://api.sandbox.ebay.com
 
 ---
 
-## 5. 最初に実装するAPI機能
+## 6. 最初に実装するAPI機能
 
 安全確認のため、最初は出品や更新ではなく読み取り系から実装します。
 
@@ -78,12 +119,14 @@ EBAY_SANDBOX_API_BASE_URL=https://api.sandbox.ebay.com
 2. eBay API接続確認
 3. 自分の出品一覧取得
 4. 注文一覧取得
-5. 出品ドラフト作成
-6. 将来的に出品作成・更新
+5. 未公開Offer作成
+6. 将来的に確認後の出品作成・更新
+
+未公開Offer作成では `publishOffer` を実行しません。
 
 ---
 
-## 6. トークンについて
+## 7. トークンについて
 
 チャットなどに一時的に貼ったUser Tokenは、作業後に再生成することを推奨します。
 
@@ -97,4 +140,5 @@ EBAY_SANDBOX_API_BASE_URL=https://api.sandbox.ebay.com
 PROJECT_CONTEXT.md、TASKS.md、EBAY_SETUP.mdを読んでください。
 まずは .env.local からeBay API設定を読み込み、設定不足なら安全なエラーを出す実装を追加してください。
 その後、読み取り専用のAPI接続確認機能を作ってください。
+未公開Offer作成を実装する場合は、publishOfferを絶対に実行せず、作成前に確認画面を挟んでください。
 ```
