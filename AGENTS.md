@@ -8,6 +8,7 @@
 - TASKS.md
 - EBAY_SETUP.md
 - MERCARI_TEMPLATE_GUIDE.md
+- PROJECT_PROGRESS.md
 
 ## 作業対象
 
@@ -23,7 +24,7 @@ s0931016-cyber/ec-automation-tools
 pwd
 git remote -v
 git branch --show-current
-ls AGENTS.md PROJECT_CONTEXT.md TASKS.md EBAY_SETUP.md MERCARI_TEMPLATE_GUIDE.md
+ls AGENTS.md PROJECT_CONTEXT.md TASKS.md EBAY_SETUP.md MERCARI_TEMPLATE_GUIDE.md PROJECT_PROGRESS.md
 ```
 
 対象リポジトリでない場合、作業を進めずに停止すること。
@@ -36,6 +37,7 @@ ls AGENTS.md PROJECT_CONTEXT.md TASKS.md EBAY_SETUP.md MERCARI_TEMPLATE_GUIDE.md
 - 型安全を重視する
 - UIは実用性を優先する
 - 過度に複雑化しない
+- 会話で決まった重要な進捗や判断はPROJECT_PROGRESS.mdに保管する
 
 ## メルカリ説明文
 
