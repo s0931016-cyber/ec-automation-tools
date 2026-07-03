@@ -222,9 +222,62 @@ Phase 1の商品入力フォームから、eBay出品ドラフト作成に必要
 - payment policy
 - images
 
+### 標準値
+
+初期の標準値は以下とする。
+
+- price: 299
+- currency: USD
+- quantity: 1
+- condition: USED
+- category label: iPods & MP3 Players 系
+- marketplace: EBAY_US
+- shipping: Standard Shipping
+- return: 30-day free returns
+- payment: eBay側のPayment Policy
+- item location: Japan / merchantLocationKey
+- images: まずはHTTPS画像URL入力方式
+
 ### 注意
 
 実際の出品作成は、確認画面と明示的な実行ボタンを用意してから行う。
+
+---
+
+## Task 12: eBay未公開Offer作成
+
+商品仕様と画像URLから、eBayの下書き相当として未公開Offerを作成する。
+
+### 方針
+
+- 商品フォームの入力内容からeBay用タイトルと英語説明文を生成する
+- SKUを自動生成する
+- `createOrReplaceInventoryItem` でInventory Itemを作成する
+- `createOffer` でOfferを作成する
+- `publishOffer` は絶対に実行しない
+- 作成前に確認画面を表示する
+- APIキーやトークンはログや画面に表示しない
+- 画像はまずHTTPS画像URL入力方式で実装する
+
+### `.env.local` から読む値
+
+- EBAY_MARKETPLACE_ID
+- EBAY_DEFAULT_CURRENCY
+- EBAY_DEFAULT_PRICE
+- EBAY_DEFAULT_QUANTITY
+- EBAY_DEFAULT_CONDITION
+- EBAY_DEFAULT_CATEGORY_LABEL
+- EBAY_DEFAULT_CATEGORY_ID
+- EBAY_PAYMENT_POLICY_ID
+- EBAY_RETURN_POLICY_ID
+- EBAY_FULFILLMENT_POLICY_ID
+- EBAY_MERCHANT_LOCATION_KEY
+
+### 未設定時の動作
+
+- Business Policy IDやmerchantLocationKeyが未設定なら、未公開Offer作成は実行しない
+- 不足している項目名だけ表示する
+- 秘密情報の値は表示しない
 
 ---
 
@@ -235,6 +288,7 @@ Phase 1の商品入力フォームから、eBay出品ドラフト作成に必要
 - eBay API設定チェックができる
 - 読み取り系APIの接続確認ができる
 - 出品ドラフト作成に必要な項目が整理されている
+- 未公開Offer作成では `publishOffer` を実行しない
 
 ---
 
