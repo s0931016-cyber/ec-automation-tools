@@ -52,6 +52,14 @@ ls AGENTS.md PROJECT_CONTEXT.md TASKS.md EBAY_SETUP.md MERCARI_TEMPLATE_GUIDE.md
 - その他
 - 発送・保証
 
+### 重要
+
+- メルカリ説明文を第7世代固定にしない
+- 第5世代 / 第5.5世代 / 第6世代 / 第6.5世代 / 第7世代に対応する
+- モデルナンバーは任意扱いにする
+- モデルナンバーが未入力の場合は文面に出さない
+- `{modelNumber}` などの未置換プレースホルダーを出力しない
+
 ## セキュリティ
 
 以下を絶対にGitHubへコミットしない。
