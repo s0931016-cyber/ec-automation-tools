@@ -7,8 +7,29 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables / secrets
 .env
 .env.*
+!.env.example
+secrets/
+*.key
+*.pem
+credentials.json
+token.json
 
 # Local data and exports
 *.csv
@@ -17,10 +38,3 @@ venv/
 *.tsv
 *.pdf
 *.zip
-
-# Secrets
-secrets/
-*.key
-*.pem
-credentials.json
-token.json
