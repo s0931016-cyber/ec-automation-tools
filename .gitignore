@@ -1,0 +1,26 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+
+# Local data and exports
+*.csv
+*.xlsx
+*.xls
+*.tsv
+*.pdf
+*.zip
+
+# Secrets
+secrets/
+*.key
+*.pem
+credentials.json
+token.json
