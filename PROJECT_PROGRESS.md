@@ -21,6 +21,38 @@ Codexは作業前に `AGENTS.md`、`PROJECT_CONTEXT.md`、`TASKS.md`、`EBAY_SET
 
 ---
 
+## 2026-07-05 方針変更: Replitは試作扱い
+
+Replit版は試作として扱い、今後の本命開発には使わない。
+
+本命はこのGitHubリポジトリ `s0931016-cyber/ec-automation-tools` で管理するWebアプリとする。
+
+目標運用は以下。
+
+1. CodexでGitHub管理のWebアプリを実装・修正する
+2. Macでローカル起動する
+3. 同じWi-Fi内のiPhone Safariから操作する
+4. 必要になった段階でVercel、Replit、Renderなどへのデプロイを検討する
+
+Replit Agentの有料枠や中断に依存しない。
+Replitに残っている試作品の内容は参考にしてよいが、Replit側を本線として更新しない。
+
+ローカル起動時は、iPhoneから開けるようにホストを外部バインドする想定。
+
+```bash
+npm run dev -- --host 0.0.0.0
+```
+
+同じWi-Fi内のiPhoneからは、MacのローカルIPを使って以下のように開く。
+
+```text
+http://<MacのローカルIP>:3000
+```
+
+UIはiPhone Safariで実用できるレスポンシブ設計を優先する。
+
+---
+
 ## Codex初回実装の状態
 
 Codexで最初の作業台アプリは実装済み。
@@ -216,6 +248,11 @@ eBay APIでは以下を目標にする。
 ---
 
 ## 保留事項
+
+### Replit
+
+Replit版は本命開発から外す。
+今後、Replitを使う場合は一時的なモックや外部公開テストに限定する。
 
 ### Yahoo!フリマ
 
