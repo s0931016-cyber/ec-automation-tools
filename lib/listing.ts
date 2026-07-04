@@ -352,42 +352,90 @@ export function generateListing(product: ProductInput): GeneratedListing {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 
+  const typeCEn = product.usbC
+    ? [
+        "- USB-C port installed",
+        `- Supports charging and iTunes/Finder sync via USB-C${product.dataTransfer ? "" : ""}`,
+        product.dataTransfer ? "- Supports USB-C data transfer" : "",
+        product.reversibleUsbC
+          ? "- Reversible USB-C connection supported"
+          : "- USB-C connection may be one-sided depending on cable orientation"
+      ]
+    : ["- Original charging port configuration"];
+  const wolfsonEn = hasWolfsonDac(product)
+    ? "If this unit is a 5th / 5.5th generation iPod Video model, it uses the Wolfson DAC generation, which is highly regarded by many iPod audio enthusiasts."
+    : "";
   const tapticEn = product.tapticEngine
-    ? "\nThis iPod has been upgraded with a Taptic Engine, replacing the original click sound with subtle vibration feedback.\n"
+    ? "This iPod has been upgraded with a Taptic Engine. The original click sound has been removed, and the unit provides subtle vibration feedback instead."
     : "";
   const imodEn = product.imod
-    ? "\nThis unit includes an iMod-style audio customization for buyers who value line-out sound quality.\n"
-    : "";
-  const wolfsonEn = hasWolfsonDac(product)
-    ? "This generation is known for its Wolfson DAC, which is valued by many iPod audio enthusiasts."
+    ? "This unit includes an iMod-style audio customization for buyers who value line-out sound quality."
     : "";
   const ebayDescription = [
-    `Custom ${product.model} ${englishGenerationLabel(product)} shipped from Japan.`,
+    "Thank you for viewing this listing.",
     "",
-    `Base model: ${product.model} ${englishGenerationLabel(product)}`,
-    `Storage: ${product.storageGb}GB SSD`,
-    `Battery: ${product.batteryMah}mAh`,
-    `Color: ${englishColor(product.color)}`,
-    product.usbC ? `USB-C: Charging${product.dataTransfer ? " and data transfer" : ""}` : "USB-C: No",
-    product.usbC ? `Reversible USB-C: ${product.reversibleUsbC ? "Yes" : "No"}` : "",
-    product.bluetooth ? "Bluetooth: Yes" : "",
-    product.imod ? "iMod: Yes" : "",
+    `This is a custom iPod based on the ${product.model} ${englishGenerationLabel(product)}, upgraded with a large-capacity SSD.`,
+    "",
+    "The original HDD has been replaced with an SSD, improving durability, stability, and daily usability compared with the original hard drive model.",
+    "",
+    "Main Custom Specifications:",
+    `- Base model: ${product.model} ${englishGenerationLabel(product)}`,
+    `- Storage: ${product.storageGb}GB SSD`,
+    `- Battery: ${product.batteryMah}mAh`,
+    `- Color: ${englishColor(product.color)}`,
+    ...typeCEn,
+    product.bluetooth ? "- Bluetooth installed" : "",
+    product.imod ? "- iMod audio customization" : "",
+    product.tapticEngine ? "- Taptic Engine installed" : "",
+    hasWolfsonDac(product) ? "- Wolfson DAC generation" : "",
+    "",
+    "Replaced / Upgraded Parts:",
+    "- SSD storage upgrade",
+    "- Front panel replaced",
+    "- Back panel replaced",
+    "- Click wheel replaced",
+    "- Earphone jack cable replaced",
+    `- Battery replaced / upgraded (${product.batteryMah}mAh)`,
+    "",
     wolfsonEn,
-    tapticEn.trim(),
-    imodEn.trim(),
+    tapticEn,
+    imodEn,
     "",
     "Condition:",
     `- ${englishCondition(product.condition)}`,
-    "- Tested for music playback, button operation, charging, and computer sync.",
-    "- This is a used custom item, so minor signs of use may be present.",
+    "- Tested for music playback",
+    "- Tested for button operation",
+    "- Tested for charging",
+    "- Tested for computer / iTunes sync",
+    "- Initialized before shipping",
+    "- This is a used custom item, so minor marks or small signs of handling may be present",
+    "- Please check the photos carefully for the actual condition",
     "",
-    "Included:",
+    "Included Items:",
     `- ${englishAccessories(product.accessories)}`,
     "",
-    "Notes:",
+    "Compatibility Notes:",
+    "This iPod can be used with iTunes / Finder sync depending on your computer environment.",
+    "It may also work with compatible car audio systems, docks, and speakers that support iPod connection, but compatibility depends on each device.",
+    "",
+    "Additional Notes:",
     `- ${englishNotes(product)}`,
-    "- Import duties, taxes, and customs charges are the buyer's responsibility."
+    "",
+    "Shipping:",
+    "The item will usually be shipped by FedEx from Japan.",
+    "Estimated delivery time is about 1 week after shipment, depending on the destination country, customs processing, and local delivery conditions.",
+    "",
+    "Customs / Import Duties:",
+    "Import duties, taxes, VAT, customs fees, and any additional charges are the buyer's responsibility.",
+    "These charges are not included in the item price or shipping cost.",
+    "Please check your country's import rules before purchasing.",
+    "",
+    "Important:",
+    "This is a custom-modified used iPod, not a brand-new factory item.",
+    "Please purchase only if you understand the nature of custom electronics.",
+    "If there is any issue upon arrival, please contact me before leaving feedback."
   ]
+    .filter(Boolean)
     .join("\n")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
