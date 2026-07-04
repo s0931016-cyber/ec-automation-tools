@@ -69,6 +69,51 @@ Then open from iPhone Safari on the same Wi-Fi:
 http://<Mac local IP>:3000
 ```
 
+## Double-Click Launcher On Mac
+
+You can start the local workbench without typing commands by double-clicking:
+
+```text
+start-ipod-workbench.command
+```
+
+The launcher will:
+
+- move into this repository directory
+- install dependencies if `node_modules` is missing
+- use `npm` when available
+- fall back to `pnpm` when `npm` is unavailable or install/start fails
+- run `npm run dev -- --host 0.0.0.0` or `pnpm run dev -- --host 0.0.0.0`
+- open `http://localhost:3000` in Safari after a few seconds
+
+If macOS blocks the file the first time, right-click it and choose Open.
+
+## Open From iPhone Safari
+
+Keep the launcher window open, then find your Mac local IP address:
+
+```bash
+ipconfig getifaddr en0
+```
+
+If that prints nothing, try:
+
+```bash
+ipconfig getifaddr en1
+```
+
+Open this from iPhone Safari on the same Wi-Fi:
+
+```text
+http://<Mac local IP>:3000
+```
+
+Example:
+
+```text
+http://192.168.1.23:3000
+```
+
 ## eBay Safety Policy
 
 The app may prepare eBay draft-like data and eventually create unpublished inventory/offer records.
