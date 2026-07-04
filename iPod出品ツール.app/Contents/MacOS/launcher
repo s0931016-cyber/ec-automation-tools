@@ -1,0 +1,14 @@
+#!/bin/zsh
+
+set -u
+
+APP_BUNDLE="$(cd "$(dirname "$0")/../.." && pwd)"
+REPO_DIR="$(cd "$APP_BUNDLE/.." && pwd)"
+COMMAND_FILE="$REPO_DIR/start-ipod-workbench.command"
+
+if [[ ! -x "$COMMAND_FILE" ]]; then
+  osascript -e 'display dialog "start-ipod-workbench.command が見つからないか、実行権限がありません。iPod出品ツール.app はリポジトリ直下に置いてください。" buttons {"OK"} default button "OK" with icon caution'
+  exit 1
+fi
+
+open -a Terminal "$COMMAND_FILE"

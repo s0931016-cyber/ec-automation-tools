@@ -71,13 +71,33 @@ http://<Mac local IP>:3000
 
 ## Double-Click Launcher On Mac
 
-You can start the local workbench without typing commands by double-clicking:
+The easiest option is the macOS app launcher.
+
+Create or refresh the app:
+
+```bash
+npm run create-mac-app
+```
+
+Then double-click this file in Finder:
+
+```text
+iPod出品ツール.app
+```
+
+Keep the Terminal/server window open while using the workbench. Closing that window stops the local web app.
+
+If macOS blocks the app the first time, right-click it and choose Open.
+
+The app opens the command launcher below, which does the actual server startup. Keep both files in the repository folder.
+
+You can also start the local workbench by double-clicking:
 
 ```text
 start-ipod-workbench.command
 ```
 
-The launcher will:
+The app/command launcher will:
 
 - move into this repository directory
 - install dependencies if `node_modules` is missing
