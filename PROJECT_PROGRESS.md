@@ -319,6 +319,40 @@ Replit版は本命開発から外す。
 現時点では直接下書き作成API/コネクタが使える前提にしない。
 将来的にはコピー用文面生成を検討する。
 
+---
+
+## 2026-07-05 Codex実装メモ
+
+GitHubリポジトリ `s0931016-cyber/ec-automation-tools` を確認し、Phase 1 Task 1からNext.jsアプリ本体を作成した。
+
+追加した主な内容。
+
+- Next.js / TypeScript / React / Tailwind CSS 初期構成
+- `npm run dev -- --host 0.0.0.0` 用の起動ラッパー
+- iPhone Safariを想定したレスポンシブUI
+- 商品入力フォーム
+- iPodプリセット
+  - 第6世代 128GB SSD USB-C
+  - 第7世代 256GB SSD USB-C
+  - 第5.5世代 256GB SSD USB-C
+  - 第5.5世代 iMod 512GB Type-C
+- メルカリ用タイトル・説明文生成
+- eBay用英語タイトル・説明文生成
+- コピー機能
+- Mercari / eBay 別の利益計算
+- eBay下書き相当プレビュー
+- `.env.local` 前提のeBay設定チェック
+
+安全方針。
+
+- `publishOffer` は実装していない
+- ライブ出品処理は実装していない
+- eBay秘密情報の値は画面/APIレスポンスに表示しない
+- Taptic Engine文言は `tapticEngine` がtrueのときだけ出す
+- モデルナンバーは任意で、未入力なら文面に出さない
+
+第5/5.5世代はeBay説明文でWolfson DAC訴求を入れる。
+
 ### Etsy
 
 公式APIには `createDraftListing` があり、技術的には下書き作成が可能。

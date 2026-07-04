@@ -19,11 +19,9 @@ The main goal is to create a local web app that can turn product specs and photo
 
 ## Current Status
 
-Design and instruction files exist, but the Next.js app itself may still need to be created.
+The initial Next.js app has been created.
 
-If `package.json` is missing, start from the initial Next.js setup.
-
-Important expected files for the app:
+Important app files:
 
 - `package.json`
 - `app/page.tsx`
@@ -85,6 +83,32 @@ Forbidden unless explicitly redesigned later:
 
 Secrets must stay in local `.env.local` only.
 Use `.env.example` for key names only.
+
+## Current Features
+
+- iPhone Safari friendly responsive UI
+- Product input form for custom iPod listings
+- iPod presets:
+  - 第6世代 128GB SSD USB-C
+  - 第7世代 256GB SSD USB-C
+  - 第5.5世代 256GB SSD USB-C
+  - 第5.5世代 iMod 512GB Type-C
+- Mercari title and description generation
+- eBay English title and description generation
+- Copy buttons for generated text and specs
+- Separate Mercari and eBay profit calculation
+- eBay draft-like preview with SKU generation
+- `.env.local` based eBay configuration check that shows only missing variable names
+
+## Future Work
+
+- Save product records locally
+- Add product list and edit screens
+- Add richer image management
+- Resolve exact eBay category IDs via Taxonomy API
+- Add read-only eBay API connection checks
+- Later, add unpublished inventory item / offer creation only with a confirmation screen
+- Never implement `publishOffer` without a new explicit redesign
 
 ## Useful Next Prompt
 
