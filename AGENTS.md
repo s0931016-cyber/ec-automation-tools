@@ -38,6 +38,26 @@ ls AGENTS.md PROJECT_CONTEXT.md TASKS.md EBAY_SETUP.md MERCARI_TEMPLATE_GUIDE.md
 - UIは実用性を優先する
 - 過度に複雑化しない
 - 会話で決まった重要な進捗や判断はPROJECT_PROGRESS.mdに保管する
+- Replit版は試作扱いとし、本命開発はこのGitHubリポジトリで行う
+- Macでローカル起動し、同じWi-Fi内のiPhone Safariから操作できることを重視する
+
+## ローカル運用
+
+開発・確認時はMacでローカル起動する。
+
+iPhoneから確認できるように、必要に応じて以下のようにホストを外部バインドする。
+
+```bash
+npm run dev -- --host 0.0.0.0
+```
+
+同じWi-Fi内のiPhone Safariからは、MacのローカルIPを使って開く。
+
+```text
+http://<MacのローカルIP>:3000
+```
+
+画面はスマホ幅での入力、コピー、確認がしやすいレスポンシブUIを優先する。
 
 ## メルカリ説明文
 
