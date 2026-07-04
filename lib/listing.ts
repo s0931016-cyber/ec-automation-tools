@@ -166,6 +166,84 @@ function generationLabel(product: ProductInput): string {
   return number ? `${product.generation}（${number}）` : product.generation;
 }
 
+function englishGenerationLabel(product: ProductInput): string {
+  const number = product.modelNumber.trim();
+  const generation = toEnglishGeneration(product.generation);
+  return number ? `${generation} (${number})` : generation;
+}
+
+function toEnglishGeneration(value: string): string {
+  const normalized = value.trim().toLowerCase();
+
+  if (normalized.includes("5.5")) return "5.5th generation";
+  if (normalized.includes("6.5")) return "6.5th generation";
+  if (normalized.includes("第5") || normalized.includes("5th")) return "5th generation";
+  if (normalized.includes("第6") || normalized.includes("6th")) return "6th generation";
+  if (normalized.includes("第7") || normalized.includes("7th")) return "7th generation";
+
+  return value
+    .replace(/第/g, "")
+    .replace(/世代/g, "generation")
+    .replace(/[（）]/g, "")
+    .trim();
+}
+
+function englishColor(value: string): string {
+  const color = value.trim();
+  const map: Record<string, string> = {
+    シルバー: "Silver",
+    ブラック: "Black",
+    ホワイト: "White",
+    黒: "Black",
+    白: "White",
+    銀: "Silver"
+  };
+  return map[color] || (hasJapaneseText(color) ? "See photos" : color);
+}
+
+function englishCondition(value: string): string {
+  const condition = value.trim();
+  const map: Record<string, string> = {
+    新品: "New",
+    未使用: "Unused",
+    未使用に近い: "Used - like new",
+    目立った傷や汚れなし: "Used - good condition",
+    やや傷や汚れあり: "Used - minor signs of use",
+    傷や汚れあり: "Used - visible signs of use",
+    全体的に状態が悪い: "Used - for repair or parts"
+  };
+  return map[condition] || (hasJapaneseText(condition) ? "Used custom item. Please check photos for details." : condition);
+}
+
+function englishAccessories(value: string): string {
+  const accessories = value.trim();
+  if (!accessories) return "Please check photos for included items.";
+
+  return accessories
+    .replace(/USB-Cケーブル/g, "USB-C cable")
+    .replace(/ケーブル/g, "cable")
+    .replace(/なし|無し/g, "None")
+    .replace(/、/g, ", ");
+}
+
+function englishNotes(product: ProductInput): string {
+  const notes = product.notes.trim();
+  if (!notes) return "Please review the photos carefully before purchase.";
+
+  if (!hasJapaneseText(notes)) return notes;
+
+  const features = [`${product.storageGb}GB SSD`];
+  if (product.usbC) features.push("USB-C");
+  if (product.imod) features.push("iMod audio customization");
+  if (hasWolfsonDac(product)) features.push("Wolfson DAC generation");
+
+  return `Custom ${product.model} ${englishGenerationLabel(product)} with ${features.join(", ")}. Fully tested. Please check photos for details.`;
+}
+
+function hasJapaneseText(value: string): boolean {
+  return /[ぁ-んァ-ヶ一-龠]/.test(value);
+}
+
 function mercariFeatureTitle(product: ProductInput): string {
   const mods = ["SSD換装"];
   if (product.usbC) mods.push("USB-C");
@@ -180,7 +258,7 @@ function ebayFeatureTitle(product: ProductInput): string {
   if (product.imod) mods.push("iMod");
   if (product.bluetooth) mods.push("Bluetooth");
   if (hasWolfsonDac(product)) mods.push("Wolfson DAC");
-  return `${product.model} ${product.generation} ${mods.join(" ")} Custom from Japan`.slice(0, 80);
+  return `${product.model} ${englishGenerationLabel(product)} ${mods.join(" ")} Custom from Japan`.slice(0, 80);
 }
 
 function hasWolfsonDac(product: ProductInput): boolean {
@@ -284,11 +362,12 @@ export function generateListing(product: ProductInput): GeneratedListing {
     ? "This generation is known for its Wolfson DAC, which is valued by many iPod audio enthusiasts."
     : "";
   const ebayDescription = [
-    `Custom ${product.model} ${product.generation} shipped from Japan.`,
+    `Custom ${product.model} ${englishGenerationLabel(product)} shipped from Japan.`,
     "",
-    `Base model: ${product.model} ${generationLabel(product)}`,
+    `Base model: ${product.model} ${englishGenerationLabel(product)}`,
     `Storage: ${product.storageGb}GB SSD`,
     `Battery: ${product.batteryMah}mAh`,
+    `Color: ${englishColor(product.color)}`,
     product.usbC ? `USB-C: Charging${product.dataTransfer ? " and data transfer" : ""}` : "USB-C: No",
     product.usbC ? `Reversible USB-C: ${product.reversibleUsbC ? "Yes" : "No"}` : "",
     product.bluetooth ? "Bluetooth: Yes" : "",
@@ -298,15 +377,15 @@ export function generateListing(product: ProductInput): GeneratedListing {
     imodEn.trim(),
     "",
     "Condition:",
-    `- ${product.condition}`,
+    `- ${englishCondition(product.condition)}`,
     "- Tested for music playback, button operation, charging, and computer sync.",
     "- This is a used custom item, so minor signs of use may be present.",
     "",
     "Included:",
-    product.accessories ? `- ${product.accessories}` : "- Please check photos for included items.",
+    `- ${englishAccessories(product.accessories)}`,
     "",
     "Notes:",
-    product.notes ? `- ${product.notes}` : "- Please review the photos carefully before purchase.",
+    `- ${englishNotes(product)}`,
     "- Import duties, taxes, and customs charges are the buyer's responsibility."
   ]
     .join("\n")
@@ -332,8 +411,8 @@ export function generateListing(product: ProductInput): GeneratedListing {
 
   const englishSpecs = [
     `Model: ${product.model}`,
-    `Generation: ${generationLabel(product)}`,
-    `Color: ${product.color}`,
+    `Generation: ${englishGenerationLabel(product)}`,
+    `Color: ${englishColor(product.color)}`,
     `Storage: ${product.storageGb}GB SSD`,
     `Battery: ${product.batteryMah}mAh`,
     `USB-C: ${product.usbC ? "Yes" : "No"}`,
@@ -342,7 +421,7 @@ export function generateListing(product: ProductInput): GeneratedListing {
     product.bluetooth ? "Bluetooth: Yes" : "",
     product.imod ? "iMod: Yes" : "",
     product.tapticEngine ? "Taptic Engine: Yes" : "",
-    `Condition: ${product.condition}`
+    `Condition: ${englishCondition(product.condition)}`
   ]
     .filter(Boolean)
     .join("\n");
