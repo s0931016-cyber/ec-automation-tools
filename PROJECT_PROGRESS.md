@@ -53,35 +53,41 @@ UIはiPhone Safariで実用できるレスポンシブ設計を優先する。
 
 ---
 
-## Codex初回実装の状態
+## 2026-07-05 現在のGitHub状態
 
-Codexで最初の作業台アプリは実装済み。
+このリポジトリには設計書と作業指示書はあるが、Next.jsアプリ本体はまだ作られていない。
 
-確認できた内容。
+確認できている既存ファイル。
 
-- Next.js / TypeScript / React / Tailwind CSS のローカルWebアプリ
-- `http://localhost:3000` で起動確認
-- 商品入力フォーム
-- 初期サンプル値
-- メルカリ用タイトル/説明文生成
-- eBay用英語タイトル/説明文生成
-- ワンクリックコピー
-- `salePrice - purchasePrice` の簡易利益計算
-- eBay下書き相当プレビュー
-- SKU自動生成
-- HTTPS画像URL対応
-- `.env.local` 前提のeBay API設定読み込み
-- 秘密情報を画面/APIレスポンスに出さない不足設定表示
-- `.env.example` / `.gitignore` / `README.md`
-- typecheck 成功
-- lint 成功
-- build 成功
-- `curl -I http://localhost:3000` で 200 OK
+- `README.md`
+- `PROJECT_CONTEXT.md`
+- `TASKS.md`
+- `AGENTS.md`
+- `EBAY_SETUP.md`
+- `MERCARI_TEMPLATE_GUIDE.md`
+- `PROJECT_PROGRESS.md`
+- `docs/workflow.md`
+- `templates/ipod_listing_template.md`
+- `templates/buyer_messages.md`
+- `scripts/profit_calculator.py`
+- `gas/line_notification_sample.gs`
 
-注意点。
+重要な不足ファイル。
 
-初回Codex作業時は `PROJECT_CONTEXT.md`、`TASKS.md`、`EBAY_SETUP.md` がワークスペース内に見つからなかったため、依頼文を正として実装された。
-次回以降は必ずリポジトリと説明書ファイルの存在確認から始める。
+- `package.json`
+- `app/page.tsx`
+- `app/layout.tsx`
+- `tailwind.config.ts`
+- `tsconfig.json`
+
+意味。
+
+- `package.json` はNext.js/ReactなどのWebアプリで使う設定ファイル。
+- アプリの起動方法、使用ライブラリ、ビルド方法、プロジェクト情報を管理する。
+- 現時点では `package.json` がないため、`npm install` や `npm run dev` で起動できるNext.jsアプリ本体は未作成。
+
+以前の「Codex初回実装済み」という記録は、現在のGitHub状態とは一致しないため採用しない。
+次回Codex作業では、必ずPhase 1 Task 1のNext.js初期構成から開始する。
 
 ---
 
@@ -94,6 +100,7 @@ pwd
 git remote -v
 git branch --show-current
 ls AGENTS.md PROJECT_CONTEXT.md TASKS.md EBAY_SETUP.md MERCARI_TEMPLATE_GUIDE.md PROJECT_PROGRESS.md
+ls package.json app/page.tsx app/layout.tsx tailwind.config.ts tsconfig.json
 ```
 
 対象リポジトリは以下。
@@ -106,55 +113,68 @@ s0931016-cyber/ec-automation-tools
 
 ---
 
-## 次に直すこと
+## 次にやること
 
-### 1. 利益計算
+### 1. Next.js初期構成を作る
 
-現在の `salePrice - purchasePrice` は仮。
+作成するファイル。
 
-メルカリとeBayで計算式を分ける。
+- `package.json`
+- `app/page.tsx`
+- `app/layout.tsx`
+- `tailwind.config.ts`
+- `tsconfig.json`
+- 必要に応じて `app/globals.css`、`postcss.config.js`、`.gitignore`、`.env.example`
 
-#### Mercari
+最低限のゴール。
 
-```text
-mercariNet = salePrice - (salePrice * 0.10) - 300
-mercariProfit = mercariNet - purchasePrice
-```
-
-表示する項目。
-
-- 販売価格
-- メルカリ手数料10%
-- 送料300円
-- 入金見込み額
-- 仕入価格
-- 利益額
-
-#### eBay
-
-```text
-ebayTotal = salePrice + shippingChargedToBuyer
-ebayFee = ebayTotal * 0.18
-ebayNet = ebayTotal - ebayFee
-ebayProfit = ebayNet - purchasePrice - shippingCost
-```
-
-初期版では送料込み販売として、`salePrice` を送料込み合計額として扱う。
-
-表示する項目。
-
-- 送料込み合計金額
-- eBay手数料18%
-- 入金見込み額
-- 仕入価格
-- 実送料
-- 利益額
+- `npm install` が通る
+- `npm run dev` が通る
+- `npm run dev -- --host 0.0.0.0` でMacから起動できる
+- 同じWi-Fi内のiPhone Safariから `http://<MacのローカルIP>:3000` で開ける前提のUIにする
+- `npm run build` が通る
 
 ---
 
-### 2. メルカリ説明文
+### 2. 商品入力フォーム
 
-現在のアプリ内説明文は簡略化されすぎている可能性がある。
+`TASKS.md` に従い、iPodカスタム商品用の入力フォームを作る。
+
+最低限含める項目。
+
+- productCategory
+- model
+- generation
+- color
+- storageGb
+- batteryMah
+- usbC
+- dataTransfer
+- reversibleUsbC
+- tapticEngine
+- bluetooth
+- imod
+- condition
+- accessories
+- purchasePrice
+- salePrice
+- platform
+- notes
+
+---
+
+### 3. iPodプリセット
+
+以下のプリセットを最初から用意する。
+
+- 第6世代 128GB SSD USB-C
+- 第7世代 256GB SSD USB-C
+- 第5.5世代 256GB SSD USB-C
+- 第5.5世代 iMod 512GB Type-C
+
+---
+
+### 4. メルカリ説明文
 
 `MERCARI_TEMPLATE_GUIDE.md` に従い、過去出品に近い構成へ修正する。
 
@@ -179,7 +199,62 @@ ebayProfit = ebayNet - purchasePrice - shippingCost
 
 ---
 
-### 3. Taptic Engine 条件分岐
+### 5. eBay側を固める
+
+当面はeBay側を優先する。
+
+やること。
+
+- eBay用タイトルと英語説明文をiPodカスタム販売向けに調整
+- eBay下書き相当プレビューを整える
+- `.env.local` のeBay API設定チェック表示を改善
+- 未公開Offer作成の設計を維持
+- `publishOffer` は絶対に実行しない
+- APIキー、Client Secret、User Token、Refresh Tokenは画面・ログ・GitHubに出さない
+
+---
+
+## 利益計算方針
+
+### Mercari
+
+```text
+mercariNet = salePrice - (salePrice * 0.10) - 300
+mercariProfit = mercariNet - purchasePrice
+```
+
+表示する項目。
+
+- 販売価格
+- メルカリ手数料10%
+- 送料300円
+- 入金見込み額
+- 仕入価格
+- 利益額
+
+### eBay
+
+```text
+ebayTotal = salePrice + shippingChargedToBuyer
+ebayFee = ebayTotal * 0.18
+ebayNet = ebayTotal - ebayFee
+ebayProfit = ebayNet - purchasePrice - shippingCost
+```
+
+初期版では送料込み販売として、`salePrice` を送料込み合計額として扱う。
+
+表示する項目。
+
+- 送料込み合計金額
+- eBay手数料18%
+- 入金見込み額
+- 仕入価格
+- 実送料
+- 利益額
+
+---
+
+## Taptic Engine 条件分岐
 
 `tapticEngine` が true の場合だけ、メルカリ説明文とeBay説明文にTaptic Engine搭載説明を追加する。
 
@@ -196,21 +271,6 @@ This iPod has been upgraded with a Taptic Engine, replacing the original click s
 ```
 
 `tapticEngine` が false の場合は、Taptic Engineに関する文言を一切出さない。
-
----
-
-### 4. eBay側を固める
-
-当面はeBay側を優先する。
-
-やること。
-
-- eBay用タイトルと英語説明文をiPodカスタム販売向けに調整
-- eBay下書き相当プレビューを整える
-- `.env.local` のeBay API設定チェック表示を改善
-- 未公開Offer作成の設計を維持
-- `publishOffer` は絶対に実行しない
-- APIキー、Client Secret、User Token、Refresh Tokenは画面・ログ・GitHubに出さない
 
 ---
 
